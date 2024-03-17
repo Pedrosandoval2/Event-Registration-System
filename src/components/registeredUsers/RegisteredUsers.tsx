@@ -1,50 +1,33 @@
 'use client'
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Spinner } from "@nextui-org/react";
-import { useGetDataForApi } from "./useGetDataForApi";
+import { useGetDataForApi } from "../../hooks/useGetDataForApi";
 
 export default function RegisteredUsers() {
 
-  const { onsubmit, searchTerm, isLoading ,items ,list } = useGetDataForApi();
-
+  const { items } = useGetDataForApi()
   return (
-    <>
-      <Table
-        aria-label="Example table with client side sorting"
-        sortDescriptor={list.sortDescriptor}
-        onSortChange={list.sort}
-        classNames={{
-          table: "min-h-[400px]",
-        }}
-      >
-        <TableHeader>
-          <TableColumn key="name" allowsSorting>
-            Name
-          </TableColumn>
-          <TableColumn key="height" allowsSorting>
-            Height
-          </TableColumn>
-          <TableColumn key="mass" allowsSorting>
-            Mass
-          </TableColumn>
-          <TableColumn key="birth_year" allowsSorting>
-            Code
-          </TableColumn>
-        </TableHeader>
-        <TableBody
-          items={searchTerm ? items : list.items}
-          isLoading={isLoading}
-          loadingContent={<Spinner label="Loading..." />}
-        >
-          {(item: any) => (
-            <TableRow key={item.name}>
-              {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <form onSubmit={onsubmit}>
-        <input type="text" />
-      </form>
-    </>
+    <div>
+      <div className="container mx-auto p-4 ">
+        <table className="w-full table-auto border border-gray-300 ">
+          <thead>
+            <tr className="bg-gray-800 text-white">
+              <th className="border border-gray-300 p-2">Nº</th>
+              <th className="border border-gray-300 p-2">Full Name</th>
+              <th className="border border-gray-300 p-2">Email</th>
+              <th className="border border-gray-300 p-2">Registration time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, i) => (
+              <tr key={item.id}>
+                <td className="border border-gray-300 p-2">{i + 1}</td>
+                <td className="border border-gray-300 p-2">{item.username} {item.lastname}</td>
+                <td className="border border-gray-300 p-2">{item.email}</td>
+                <td className="border border-gray-300 p-2">{new Date(item.createdAT).toLocaleString('es-PE', { timeZone: 'America/Lima' })}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }

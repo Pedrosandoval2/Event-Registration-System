@@ -1,8 +1,13 @@
 import RegisteredUsers from '../registeredUsers/RegisteredUsers';
+import { SearchUsers } from '../searchUsersRegistered/SearchUsers';
 export const Section = () => {
   return (
-    <div className='grid grid-cols-3 cell-phone:grid-cols-1 mx-2 text-center mt-20'>
-    <RegisteredUsers />
+    <div>
+      <div className=' mx-2 text-center mt-24'>
+        <SearchUsers />
+        <RegisteredUsers />
+      </div>
     </div>
+
   )
 }
