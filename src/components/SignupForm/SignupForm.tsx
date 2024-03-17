@@ -5,28 +5,53 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/utils/cn";
 import {
   IconBrandGithub,
-  IconBrandGoogle,
-  IconBrandOnlyfans,
+  IconBrandGoogle
 } from "@tabler/icons-react";
-import { useForm, SubmitHandler  } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { addUsersRegister } from "@/store/addUsersRegister";
+import { useCreateUserForApi } from "@/hooks/useCreateUserForApi";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 type Inputs = {
-    firstname: string,
-    lastname: string,
-    email:string,
-    password:string,
-    phonenumber:number
-  }
-  
+  username: string,
+  lastname: string,
+  email: string,
+  phonenumber: number
+}
+
 export function SignupFormDemo() {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm<Inputs>()
-      const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
-    //   Hemos obtenenido los datos del usuario que se ha registrado para pdoer obtener los datos.
+
+  const { user, addValueSearch } = addUsersRegister()
+  const { addUsers } = useCreateUserForApi();
+  const { data: sesion } = useSession();
+  const {
+    register,
+    handleSubmit,
+  } = useForm<Inputs>()
+
+
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    addValueSearch({
+      ...data,
+      authStrategy: 'SingUp'
+    }),
+      await addUsers(user)
+  }
+
+  const addValueSingInGoogle = async () => {
+    signIn("google"),
+      await addUsers({
+        email: sesion?.user?.email,
+        username: sesion?.user?.name,
+        lastname: '',
+        authStrategy: 'Google'
+      })
+  }
+
+
+
   return (
     <div className="max-w-md w-full mt-28  mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
@@ -37,11 +62,11 @@ export function SignupFormDemo() {
         yet
       </p>
 
-      <form className="my-8"  onSubmit={handleSubmit(onSubmit)}>
+      <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
           <LabelInputContainer>
-            <Label htmlFor="firstname">First name</Label>
-            <Input id="firstname" placeholder="Tyler" type="text" {...register("firstname", { required: true })} />
+            <Label htmlFor="username">First name</Label>
+            <Input id="username" placeholder="Tyler" type="text" {...register("username", { required: true })} />
           </LabelInputContainer>
           <LabelInputContainer>
             <Label htmlFor="lastname">Last name</Label>
@@ -50,11 +75,7 @@ export function SignupFormDemo() {
         </div>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="projectmayhem@fc.com" type="email"  {...register("email", { required: true })}/>
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" {...register("password", { required: true })}/>
+          <Input id="email" placeholder="projectmayhem@fc.com" type="email"  {...register("email", { required: true })} />
         </LabelInputContainer>
         <LabelInputContainer className="mb-8">
           <Label htmlFor="phonenumber">Your Phone Number </Label>
@@ -89,21 +110,11 @@ export function SignupFormDemo() {
           </button>
           <button
             className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
+            type="submit" onClick={addValueSingInGoogle}
           >
             <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
             <span className="text-neutral-700 dark:text-neutral-300 text-sm">
               Google
-            </span>
-            <BottomGradient />
-          </button>
-          <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
-          >
-            <IconBrandOnlyfans className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-              OnlyFans
             </span>
             <BottomGradient />
           </button>

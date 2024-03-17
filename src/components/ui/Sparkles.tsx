@@ -41,7 +41,6 @@ export const SparklesCore = (props: ParticlesProps) => {
 
   const particlesLoaded = async (container?: Container) => {
     if (container) {
-      console.log(container);
       controls.start({
         opacity: 1,
         transition: {
@@ -56,7 +55,7 @@ export const SparklesCore = (props: ParticlesProps) => {
       {init && (
         <Particles
           id={id || "tsparticles"}
-          className={cn("h-full w-full") }
+          className={cn("h-full w-full")}
           particlesLoaded={particlesLoaded}
           options={{
             background: {

@@ -19,16 +19,6 @@ export function NavBarPage({ className }: { className?: string }) {
               <HoveredLink href="/RegisterUsers">registered users</HoveredLink>
             </div>
           </MenuItem>
-          <MenuItem setActive={setActive} active={active} item="Contact">
-          <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/Contact">Contact</HoveredLink>
-            </div>
-          </MenuItem>
-          <MenuItem setActive={setActive} active={active} item="Price">
-          <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/Price">Price quote</HoveredLink>
-            </div>
-          </MenuItem>
         </Menu>
       </div>
     );
