@@ -5,7 +5,6 @@ import { NavBarPage } from "@/components/navBar/Navbar";
 export default function Home() {
   return (
     <main>
-        <NavBarPage />
         <SparklesPreview />
     </main>
   );
