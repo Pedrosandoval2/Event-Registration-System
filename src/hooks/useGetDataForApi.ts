@@ -1,42 +1,41 @@
-'use client'
-import { API_DATA } from '@/components/shared/apiGlobal';
-import { viewStore } from '@/store/viewUsersRegister';
+import { User } from '@/interfaces/users/users';
 import React from 'react'
 
-export const useGetDataForApi = () => {
-
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [items, setItems] = React.useState([]);
-  const { value } = viewStore()
-
-  const getList = async (url:string) => {
-    try {
-      const resp = await fetch(`${url}`);
-      const data = await resp.json();
-      setItems(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  React.useEffect(() => {
-    if (value.length !== 0) {
-      getList(`${API_DATA}/${value}`)
-      return;
-    }
-    getList(`${API_DATA}`);
-  }, [value])
-
-  const processData = (data: {}) => {
-
-    if (!Array.isArray(data)) {
-      return [data];
-    }
+const getList = async (url: string, query?: string): Promise<User[]> => {
+  try {
+    const resp = await fetch(`${url}${query ? `?username=${query}` : ''}`);
+    const data = await resp.json();
+    if (!data) return [];
     return data;
-  };
-  const processedData = processData(items);
-  return {
-    items: processedData,
-    isLoading
+  } catch (err) {
+    console.log(err);
+    throw new Error('Error fetching data');
   }
+};
+
+export const useGetDataForApi = () => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [items, setItems] = React.useState<User[]>([]);
+
+  const fetchData = async (url: string, query?: string) => {
+    try {
+      setIsLoading(true);
+      const data = await getList(url, query);
+      setItems(data);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error fetching data');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return {
+    fetchData,
+    isLoading,
+    items
+  }
+
 }
+
+
