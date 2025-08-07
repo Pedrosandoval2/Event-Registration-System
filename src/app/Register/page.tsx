@@ -1,11 +1,5 @@
-import { SignupFormDemo } from "@/components/SignupForm/SignupForm";
-import { NavBarPage } from "@/components/navBar/Navbar";
 
+import { SignupFormDemo } from "@/components/SignupForm/SignupForm";
 export default function NamePage() {
-  return (
-    <div>
-      <NavBarPage />
-      <SignupFormDemo />
-    </div>
-  );
+  return <SignupFormDemo />
 }
