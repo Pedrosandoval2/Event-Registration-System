@@ -17,6 +17,7 @@ export function NavBarPage({ className }: { className?: string }) {
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/Register">Register</HoveredLink>
               <HoveredLink href="/RegisterUsers">Registered users</HoveredLink>
+              <HoveredLink href="/Camara">Camara</HoveredLink>
             </div>
           </MenuItem>
         </Menu>
