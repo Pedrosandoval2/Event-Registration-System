@@ -1,6 +1,8 @@
+<<<<<<< HEAD
 # 📋 Sistema de Registro de Asistentes con QR
 
 ![imagen del proyecto](./public//background.png)
+> _"Si las empresas no quieren contratarme, entonces haré que quieran contratarme."_
 
 Sistema de registro y control de asistencia para eventos.  
 Permite simular el registro (auto-registro o registro desde admin), ver la lista de asistentes, generar un QR por asistente y escanearlo desde una vista para validar/consultar al backend. Si el QR escaneado no corresponde a ningún usuario, el backend responde indicando que no existe.
@@ -29,10 +31,13 @@ Permite simular el registro (auto-registro o registro desde admin), ver la lista
 ## 🚀 Endpoints (ejemplo - Backend)
 
 ### `POST /attendees` — Registrar asistente (simulación / auto-registro)
-**Request**
+**Request ejemplo**
 ```json
 {
   "name": "Juan Perez",
-  "email": "juan@ejemplo.com",
-  "phone": "987654321"
+  "email": "juan@ejemplo.com"
 }
+```
+
+### También por cuenta de google
+=======
