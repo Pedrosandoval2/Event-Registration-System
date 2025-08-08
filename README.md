@@ -1,67 +1,38 @@
-# 🗓️ Sistema de Gestión de Eventos
+# 📋 Sistema de Registro de Asistentes con QR
 
-![imagen del proyecto](./src/assets/217shots_so.webp)
+![imagen del proyecto](./public//background.png)
 
-Un sistema web creado para gestionar eventos comunitarios, registrar participantes y controlar pagos. Inspirado en una necesidad real detectada en mi iglesia, este proyecto me permitió aprender nuevas tecnologías mientras resolvía un problema concreto.
-
-> _"Si las empresas aún no quieren contratarme, entonces haré que quieran contratarme."_
-
----
-
-## 🚀 Funcionalidades principales
-
-- Creación y gestión de eventos
-- Registro de participantes
-- Gestión de pagos
-- Login seguro y flujo de autenticación
-- Interfaz intuitiva y responsive
+Sistema de registro y control de asistencia para eventos.  
+Permite simular el registro (auto-registro o registro desde admin), ver la lista de asistentes, generar un QR por asistente y escanearlo desde una vista para validar/consultar al backend. Si el QR escaneado no corresponde a ningún usuario, el backend responde indicando que no existe.
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 🔎 Flujo general
 
-### Frontend:
-- React
-- React Router
-- TypeScript
-- TailwindCSS
-- React Hook Form + Yup
-- Zustand
-- Axios
-- Lucide React
-- React Toastify
-- Shadcn UI
-
-### Backend:
-- NestJS
-- TypeORM
-- MySQL
-- Docker Compose
-- bcryptjs
-- JWT (nest-jwt)
-- dotenv
-- class-validator / class-transformer
-
-### Herramientas:
-- Postman
-- HeidiSQL
+1. El organizador o el usuario registra a una persona (simulación o auto-registro).
+2. En la lista de asistentes aparece cada usuario con un botón **Generar QR**.
+3. El backend genera un QR con un identificador (por ejemplo `attendeeId` o un token corto).
+4. En la vista de escaneo (scanner), se escanea el QR con `html5-qrcode`.
+5. El frontend envía el contenido del QR al backend para consulta.
+6. Si existe el usuario, se retorna la info y se puede marcar asistencia; si no existe, el backend responde `404` o `{ message: "Usuario no encontrado" }`.
 
 ---
 
-## 📦 Instalación
+## 🧩 Stack (ejemplo)
 
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/Pedrosandoval2/Event-Registration-System
-cd Event-Registration-System
-```
-### 2.- Clonar el Backend
-```bash
-git clone https://github.com/Pedrosandoval2/back_form_app
-cd back_form_app
+**Backend:** NestJS, TypeScript, TypeORM, MySQL (docker-compose), `qrcode`, class-validator, class-transformer, JWT (opcional).  
+**Frontend:** Next.js, `html5-qrcode`, TailwindCSS, Axios.  
+**Infra / Dev:** Docker Compose para DB y servicios, Postman para pruebas.
 
-cp .env.example .env
-# Asegúrate de llenar tus variables de entorno correctamente
+---
 
-# Levanta los servicios con Docker
-docker-compose up --build
+## 🚀 Endpoints (ejemplo - Backend)
+
+### `POST /attendees` — Registrar asistente (simulación / auto-registro)
+**Request**
+```json
+{
+  "name": "Juan Perez",
+  "email": "juan@ejemplo.com",
+  "phone": "987654321"
+}
