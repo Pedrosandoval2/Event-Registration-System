@@ -22,36 +22,25 @@ export default function NamePage() {
         setScannedResult(decodedText);
     };
 
-    const handleScanError = (error: any) => {
-        console.error("Error al escanear QR:", error);
-    };
-
-    const handleReset = () => {
-        setScannedResult('');
-    };
-
     const renderResult = () => {
-        if (items && items.length > 0) {
-            return (
-                <div className="text-white text-center space-y-2">
-                    <h2 className="text-xl font-bold">Resultado Escaneado:</h2>
-                    {items.map((item) => (
-                        <div key={item.id} className="bg-zinc-800 p-4 rounded shadow">
-                            <p><strong>Nombre:</strong> {item.username} {item.lastname}</p>
-                            <p><strong>Email:</strong> {item.email}</p>
-                            <p><strong>Registrado:</strong> {new Date(item.createdAT).toLocaleString('es-PE', { timeZone: 'America/Lima' })}</p>
-                        </div>
-                    ))}
-                </div>
-            );
-        }
-
         return (
-            <div className="text-white text-center mt-8">
-                <h2 className="text-xl font-bold">QR Escaneado:</h2>
-                <p>{scannedResult}</p>
+            <div>
+                {items && items.length > 0 && !isLoading ? (
+                    <div className="text-black text-center space-y-2">
+                        <h2 className="text-xl font-bold">Resultado Escaneado:</h2>
+                        {items.map((item) => (
+                            <div key={item.id} className="bg-zinc-800 p-4 rounded shadow">
+                                <p><strong>Nombre:</strong> {item.username} {item.lastname}</p>
+                                <p><strong>Email:</strong> {item.email}</p>
+                                <p><strong>Registrado:</strong> {new Date(item.createdAT).toLocaleString('es-PE', { timeZone: 'America/Lima' })}</p>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-black text-center">Usuario no registrado</div>
+                )}
             </div>
-        );
+        )
     };
 
     return (
@@ -79,8 +68,4 @@ export default function NamePage() {
 
         </div>
     );
-}
-
-function setScannedResult(arg0: (prev: any) => any[]) {
-    throw new Error("Function not implemented.");
 }
