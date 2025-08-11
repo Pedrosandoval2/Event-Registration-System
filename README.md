@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 📋 Sistema de Registro de Asistentes con QR
 
 ![imagen del proyecto](./public//background.png)
